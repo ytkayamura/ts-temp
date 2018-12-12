@@ -3,6 +3,6 @@ import * as ReactDOM from 'react-dom';
 import Hello from './components/Hello';
 
 ReactDOM.render(
-  <Hello />,
+  <Hello initialName="React" />,
   document.getElementById('app'),
 );
