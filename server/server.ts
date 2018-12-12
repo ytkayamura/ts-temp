@@ -1,13 +1,10 @@
-/*
 import * as Express from 'express';
+import * as path from 'path';
 
 const PORT: number = Number(process.env.PORT) || 8081;
 
 const app = Express();
-
-app.get('/', (req: Express.Request, res: Express.Response) => {
-  return res.send('Hello Express!');
-});
+app.use(Express.static(path.join(__dirname, '../public')));
 
 app.listen(PORT, (err: Error): void => {
   if (err) {
@@ -19,7 +16,3 @@ app.listen(PORT, (err: Error): void => {
   }
 });
 export default app;
- */
-import exercise04 from './exercise/exercise04';
-
-exercise04();

@@ -3,17 +3,23 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/server.bundle.js",
+    "build": "webpack --mode production",
+    "start:dev": "webpack-dev-server --mode development --open",
     "build:server": "webpack --mode production --config webpack.server.config.js",
     "build:dev:server": "webpack --mode development --watch --config webpack.server.config.js",
     "start:dev:server": "nodemon server/server.bundle.js",
     "lint": "tslint --project tsconfig.dev.json",
-    "heroku-postbuild": "yarn build:server"
+    "heroku-postbuild": "yarn build && yarn build:server"
   },
   "author": "yayamura",
   "license": "MIT",
   "dependencies": {
     "@types/express": "^4.16.0",
+    "@types/react": "^16.7.13",
+    "@types/react-dom": "^16.0.11",
     "express": "^4.16.3",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
     "ts-loader": "^5.3.0",
     "typescript": "^3.1.4",
     "webpack": "^4.23.1",
@@ -24,7 +30,8 @@
     "nodemon": "^1.18.5",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "tslint-loader": "^3.5.4"
+    "tslint-loader": "^3.5.4",
+    "webpack-dev-server": "^3.1.10"
   },
   "resolutions": {
     "**/event-stream": "^4.0.1"
