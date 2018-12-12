@@ -5,35 +5,26 @@ interface Props {
 }
 interface State {
   name: string;
-  input: string;
 }
 export default class Hello extends React.Component<Props, State> {
   state: State = {
     name: this.props.initialName,
-    input: '',
   };
+  textInput!: HTMLInputElement;
+
   returnSetName = (name: string) => (): void => {
     this.setState({
       ...this.state,
       name,
     });
   }
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({
-      ...this.state,
-      input: e.target.value,
-    });
-  }
   setNameFromInput = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { input } : State = this.state;
-    this.setState({
-      name: input,
-      input: '',
-    });
+    this.setState({ name: this.textInput.value });
+    this.textInput.value = '';
   }
   render(): JSX.Element {
-    const { name, input } : State = this.state;
+    const { name } : State = this.state;
     return (
       <div>
         <div>
@@ -41,7 +32,7 @@ export default class Hello extends React.Component<Props, State> {
           <button type="button" onClick={this.returnSetName('花子')}>花子</button>
         </div>
         <form onSubmit={this.setNameFromInput}>
-          <input type="text" value={input} onChange={this.handleInputChange} />
+          <input type="text" ref={(node: HTMLInputElement): void => { this.textInput = node; }} />
           <button type="submit">Hello!</button>
         </form>
         <div>Hello {name}!</div>
