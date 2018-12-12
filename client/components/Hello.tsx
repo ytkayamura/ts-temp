@@ -5,23 +5,46 @@ interface Props {
 }
 interface State {
   name: string;
+  input: string;
 }
 export default class Hello extends React.Component<Props, State> {
   state: State = {
     name: this.props.initialName,
+    input: '',
   };
-  setNameTaro = (): void => {
-    this.setState({ name: '太郎' });
+  returnSetName = (name: string) => (): void => {
+    this.setState({
+      ...this.state,
+      name,
+    });
   }
-  setNameHanako = (): void => {
-    this.setState({ name: '花子' });
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      ...this.state,
+      input: e.target.value,
+    });
+  }
+  setNameFromInput = (): void => {
+    const { input } : State = this.state;
+    this.setState({
+      name: input,
+      input: '',
+    });
+  }
+  handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') this.setNameFromInput();
   }
   render(): JSX.Element {
-    const { name } : State = this.state;
+    const { name, input } : State = this.state;
     return (
       <div>
-        <button type="button" onClick={this.setNameTaro}>太郎</button>
-        <button type="button" onClick={this.setNameHanako}>花子</button>
+        <div>
+          <button type="button" onClick={this.returnSetName('太郎')}>太郎</button>
+          <button type="button" onClick={this.returnSetName('花子')}>花子</button>
+        </div>
+        <input type="text" value={input} onChange={this.handleInputChange}
+          onKeyPress={this.handleInputKeyPress}/>
+        <button onClick={this.setNameFromInput}>Hello!</button>
         <div>Hello {name}!</div>
       </div>
     );
