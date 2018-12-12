@@ -20,10 +20,6 @@ app.listen(PORT, (err: Error): void => {
 });
 export default app;
  */
-import exercise01 from './exercise/exercise01';
-import { hoge, fuga as fugaga } from './exercise/exercise02';
-import * as exercise03 from './exercise/exercise03';
+import exercise04 from './exercise/exercise04';
 
-exercise01();
-console.log(hoge, fugaga);
-console.log(exercise03.piyo, exercise03.piyoyo);
+exercise04();
