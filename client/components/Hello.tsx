@@ -1,5 +1,4 @@
 import * as React from 'react';
-import FruitButton, { Fruit } from './FruitButton';
 
 interface Props {
   initialName: string;
@@ -13,7 +12,7 @@ export default class Hello extends React.Component<Props, State> {
     name: this.props.initialName,
     input: '',
   };
-  setName = (name: string): void => {
+  returnSetName = (name: string) => (): void => {
     this.setState({
       ...this.state,
       name,
@@ -38,9 +37,8 @@ export default class Hello extends React.Component<Props, State> {
     return (
       <div>
         <div>
-          <FruitButton fruit={Fruit.APPLE} setName={this.setName} />
-          <FruitButton fruit={Fruit.ORANGE} setName={this.setName} />
-          <FruitButton fruit={Fruit.BANANA} setName={this.setName} />
+          <button type="button" onClick={this.returnSetName('太郎')}>太郎</button>
+          <button type="button" onClick={this.returnSetName('花子')}>花子</button>
         </div>
         <form onSubmit={this.setNameFromInput}>
           <input type="text" value={input} onChange={this.handleInputChange} />
