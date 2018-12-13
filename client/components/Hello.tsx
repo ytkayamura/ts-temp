@@ -1,38 +1,49 @@
 import * as React from 'react';
+import FruitButton, { Fruit } from './FruitButton';
 
 interface Props {
   initialName: string;
 }
 interface State {
   name: string;
+  input: string;
 }
 export default class Hello extends React.Component<Props, State> {
   state: State = {
     name: this.props.initialName,
+    input: '',
   };
-  textInput!: HTMLInputElement;
-
-  returnSetName = (name: string) => (): void => {
+  setName = (name: string): void => {
     this.setState({
       ...this.state,
       name,
     });
   }
+  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      ...this.state,
+      input: e.target.value,
+    });
+  }
   setNameFromInput = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    this.setState({ name: this.textInput.value });
-    this.textInput.value = '';
+    const { input } : State = this.state;
+    this.setState({
+      name: input,
+      input: '',
+    });
   }
   render(): JSX.Element {
-    const { name } : State = this.state;
+    const { name, input } : State = this.state;
     return (
       <div>
         <div>
-          <button type="button" onClick={this.returnSetName('太郎')}>太郎</button>
-          <button type="button" onClick={this.returnSetName('花子')}>花子</button>
+          <FruitButton fruit={Fruit.APPLE} setName={this.setName} />
+          <FruitButton fruit={Fruit.ORANGE} setName={this.setName} />
+          <FruitButton fruit={Fruit.BANANA} setName={this.setName} />
         </div>
         <form onSubmit={this.setNameFromInput}>
-          <input type="text" ref={(node: HTMLInputElement): void => { this.textInput = node; }} />
+          <input type="text" value={input} onChange={this.handleInputChange} />
           <button type="submit">Hello!</button>
         </form>
         <div>Hello {name}!</div>
