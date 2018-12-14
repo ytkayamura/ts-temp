@@ -1,22 +1,29 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { GlobalState } from '../state';
+import { Act, ActionCreators as Acc } from '../actions';
 
 interface Props {
-  initialName: string;
+  greeting: string;
+  dispatch: (action: Act) => void;
 }
 interface State {
-  name: string;
   input: string;
 }
-export default class Hello extends React.Component<Props, State> {
+class Hello extends React.Component<Props, State> {
   state: State = {
-    name: this.props.initialName,
     input: '',
   };
-  returnSetName = (name: string) => (): void => {
-    this.setState({
-      ...this.state,
-      name,
-    });
+  hello = (name: string): void => {
+    const { dispatch }: Props = this.props;
+    dispatch(Acc.hello(name));
+  }
+  goodbye = (): void => {
+    const { dispatch }: Props = this.props;
+    dispatch(Acc.goodbye());
+  }
+  returnHello = (name: string) => (): void => {
+    this.hello(name);
   }
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
@@ -24,28 +31,35 @@ export default class Hello extends React.Component<Props, State> {
       input: e.target.value,
     });
   }
-  setNameFromInput = (e: React.FormEvent<HTMLFormElement>): void => {
+  helloFromInput = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { input } : State = this.state;
+    const { input }: State = this.state;
     this.setState({
-      name: input,
       input: '',
     });
+    this.hello(input);
   }
   render(): JSX.Element {
-    const { name, input } : State = this.state;
+    const { input }: State = this.state;
+    const { greeting }: Props = this.props;
     return (
       <div>
         <div>
-          <button type="button" onClick={this.returnSetName('太郎')}>太郎</button>
-          <button type="button" onClick={this.returnSetName('花子')}>花子</button>
+          <button type="button" onClick={this.returnHello('太郎')}>太郎</button>
+          <button type="button" onClick={this.returnHello('花子')}>花子</button>
         </div>
-        <form onSubmit={this.setNameFromInput}>
+        <form onSubmit={this.helloFromInput}>
           <input type="text" value={input} onChange={this.handleInputChange} />
           <button type="submit">Hello!</button>
+          <div>
+            <button type="button" onClick={this.goodbye}>Goodbye!</button>
+          </div>
         </form>
-        <div>Hello {name}!</div>
+        <div>{greeting}</div>
       </div>
     );
   }
 }
+export default connect(
+  (state: GlobalState): GlobalState => ({ greeting: state.greeting }),
+)(Hello);
