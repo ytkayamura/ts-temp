@@ -36,6 +36,9 @@ module.exports = (env, argv) => {
     },
     devServer: {
       contentBase: path.join(__dirname, 'public'),
+      proxy: {
+        '/api': 'http://localhost:8081',
+      },
     },
   };
 };

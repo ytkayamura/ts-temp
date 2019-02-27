@@ -11,6 +11,14 @@ export default function reducers(state: GlobalState = initialState, action: Act)
         greeting: `Hello ${name}!`,
       };
     }
+  case ActionTypes.HELLO_WORLD:
+    {
+      const { greeting } = action.payload;
+      return {
+        ...state,
+        greeting,
+      };
+    }
   case ActionTypes.GOODBYE:
     if (state.greeting.startsWith('Goodbye')) {
       return {
